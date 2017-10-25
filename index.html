@@ -57,8 +57,12 @@
     $('#update').click(update);
   });
   function update() {
-    $('#table').find("tr:gt(0)").remove();
     points = $('#points').val();
+    if(points == 0 || points % 1 != 0) {
+      alert('Please enter a whole number greater than zero.');
+      return;
+    }
+    $('#table').find("tr:gt(0)").remove();
     var values = '';
     for(score = points; score >= 0; score--) {
       values += '<tr><td>' + (points - score)
