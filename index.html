@@ -1,0 +1,80 @@
+<html>
+<head>
+  <title>GradeTable</title>
+  <style>
+  body {
+    font-family: arial, sans-serif;
+    background-color: #f0f0ff;
+  }
+
+  input, label {
+    font-size: 18pt;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #ddddee;
+  }
+
+  tr:nth-child(1) {
+    background-color: #ccccdd;
+  }
+  </style>
+</head>
+<body>
+  <label>Total Points:</label>
+  <input id="points" type="number" value="10"/>
+  <input id="update" type="button" value="Update Table" />
+  <table id="table">
+    <tr>
+      <th>Points Lost</th>
+      <th>Score With No Corrections</th>
+      <th>Score With Perfect Corrections</th>
+    </tr>
+  </table>
+  <footer>
+    <p>GradeTable - &copy; Gabe Lyczak 2017</p>
+  </footer>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+  <script>
+  var points = 10;
+  $(function() {
+    update();
+    $('#update').click(update);
+  });
+  function update() {
+    $('#table').find("tr:gt(0)").remove();
+    points = $('#points').val();
+    var values = '';
+    for(score = points; score >= 0; score--) {
+      values += '<tr><td>' + (points - score)
+        + '</td><td>' + normal(score)
+        + '</td><td>' + corrections(score)
+        + '</td></tr>';
+    }
+    $('#table tr').first().after(values);
+  }
+  function normal(score) {
+    return Math.round((score / points) * 100) + '%';
+  }
+  function corrections(score) {
+    var percent = score / points;
+    return Math.round((((1 - percent) * 0.5) + percent) * 100) + '%';
+  }
+  </script>
+</body>
+</html>
